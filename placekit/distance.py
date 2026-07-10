@@ -31,9 +31,9 @@ def distance_between(
         * cos(destination_lat_rad)
         * sin(lon_difference / 2) ** 2
     )
+    a = min(1.0, max(0.0, a))
 
     c = 2 * atan2(sqrt(a), sqrt(1 - a))
-
     distance_km = EARTH_RADIUS_KM * c
     distance_meters = distance_km * 1000
     distance_miles = distance_km * KM_TO_MILES
