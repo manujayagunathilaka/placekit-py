@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "placekit-py"
+version = "0.1.0"
+description = "A Python toolkit for distance calculations, nearby places, and geolocation provider integrations."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "Manujaya Gunathilaka" }
+]
+keywords = [
+    "python",
+    "geolocation",
+    "places",
+    "distance",
+    "nearby-places",
+    "maps",
+    "location"
+]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.urls]
+Homepage = "https://github.com/manujayagunathilaka/placekit-py"
+Repository = "https://github.com/manujayagunathilaka/placekit-py"
+Issues = "https://github.com/manujayagunathilaka/placekit-py/issues"
+
+[tool.setuptools.packages.find]
+include = ["placekit*"]
