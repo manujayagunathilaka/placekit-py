@@ -32,6 +32,11 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+]
+
 [project.urls]
 Homepage = "https://github.com/manujayagunathilaka/placekit-py"
 Repository = "https://github.com/manujayagunathilaka/placekit-py"
