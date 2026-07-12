@@ -2,6 +2,7 @@
 
 from math import atan2, cos, radians, sin, sqrt
 
+from placekit.exceptions import InvalidCoordinateError
 from placekit.models import Distance
 
 
@@ -9,11 +10,21 @@ EARTH_RADIUS_KM = 6371.0
 KM_TO_MILES = 0.621371
 
 
-def distance_between(
-    origin: tuple[float, float],
-    destination: tuple[float, float],
-) -> Distance:
+def _validate_coordinate(coordinate: tuple[float, float]) -> None:
+    """Validate a latitude/longitude coordinate pair."""
+    latitude, longitude = coordinate
+
+    if not -90 <= latitude <= 90:
+        raise InvalidCoordinateError("Latitude must be between -90 and 90.")
+
+    if not -180 <= longitude <= 180:
+        raise InvalidCoordinateError("Longitude must be between -180 and 180.")
+
+def distance_between(origin: tuple[float, float], destination: tuple[float, float],) -> Distance:
     """Calculate the distance between two latitude/longitude coordinates."""
+    _validate_coordinate(origin)
+    _validate_coordinate(destination)
+
     origin_lat, origin_lon = origin
     destination_lat, destination_lon = destination
 
@@ -43,3 +54,4 @@ def distance_between(
         meters=round(distance_meters, 2),
         miles=round(distance_miles, 3),
     )
+
