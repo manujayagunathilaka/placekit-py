@@ -30,13 +30,18 @@ Current features:
 
 - Distance calculation between two coordinates
 - Distance result in kilometers, meters, and miles
+- Coordinate validation
+- `Location` object support
+- Custom exceptions for invalid coordinates
+- Automated tests with `pytest`
 
 Planned features:
 
-- Location and place data models
+- Place data model
 - Nearby places finder
 - Provider support for OpenStreetMap and Google Places
 - CLI support
+- PyPI release
 
 ## Installation
 
@@ -116,6 +121,31 @@ distance = distance_between(
 print(f"{distance.km} km")
 ```
 
+## Using Location Objects
+
+In addition to coordinate tuples, `placekit-py` also supports `Location` objects.
+
+```python
+from placekit import Location, distance_between
+
+origin = Location(latitude=6.9147, longitude=79.9729)
+destination = Location(latitude=6.9271, longitude=79.8612)
+
+distance = distance_between(origin, destination)
+
+print(distance.km)
+print(distance.meters)
+print(distance.miles)
+```
+
+Example output:
+
+```text
+12.407
+12406.83
+7.709
+```
+
 ## Coordinate Validation
 
 `placekit-py` validates latitude and longitude values before calculating distance.
@@ -145,6 +175,70 @@ Example output:
 Latitude must be between -90 and 90.
 ```
 
+## API Reference
+
+### `distance_between(origin, destination)`
+
+Calculates the straight-line distance between two geographic coordinates.
+
+The `origin` and `destination` values can be either coordinate tuples or `Location` objects.
+
+Tuple example:
+
+```python
+from placekit import distance_between
+
+distance = distance_between(
+    (6.9147, 79.9729),
+    (6.9271, 79.8612),
+)
+```
+
+`Location` object example:
+
+```python
+from placekit import Location, distance_between
+
+distance = distance_between(
+    Location(latitude=6.9147, longitude=79.9729),
+    Location(latitude=6.9271, longitude=79.8612),
+)
+```
+
+Returns a `Distance` object:
+
+```python
+Distance(km=12.407, meters=12406.83, miles=7.709)
+```
+
+### `Location`
+
+Represents a geographic location using latitude and longitude.
+
+```python
+from placekit import Location
+
+location = Location(latitude=6.9147, longitude=79.9729)
+```
+
+### `Distance`
+
+Represents a distance value in multiple units.
+
+```python
+from placekit import Distance
+
+distance = Distance(km=1.0, meters=1000.0, miles=0.621)
+```
+
+### `InvalidCoordinateError`
+
+Raised when latitude or longitude values are outside the valid coordinate range.
+
+```python
+from placekit import InvalidCoordinateError
+```
+
 ## Roadmap
 
 - [x] Add distance model
@@ -152,7 +246,11 @@ Latitude must be between -90 and 90.
 - [x] Add example usage
 - [x] Add automated tests
 - [x] Add development dependencies
-- [ ] Add location and place data models
+- [x] Add coordinate validation
+- [x] Add custom exceptions
+- [x] Add `Location` model
+- [x] Add `Location` object support for distance calculation
+- [ ] Add place data model
 - [ ] Add geocoding support
 - [ ] Add nearby places finder
 - [ ] Add OpenStreetMap provider
