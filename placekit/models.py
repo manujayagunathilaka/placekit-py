@@ -9,6 +9,13 @@ class Location:
     latitude: float
     longitude: float
 
+@dataclass(frozen=True)
+class Place:
+    """Represents a real-world place with a name, category and location."""
+
+    name: str
+    category: str
+    location: Location
 
 @dataclass(frozen=True)
 class Distance:
