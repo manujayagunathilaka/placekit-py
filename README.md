@@ -116,6 +116,35 @@ distance = distance_between(
 print(f"{distance.km} km")
 ```
 
+## Coordinate Validation
+
+`placekit-py` validates latitude and longitude values before calculating distance.
+
+Valid coordinate ranges:
+
+- Latitude: `-90` to `90`
+- Longitude: `-180` to `180`
+
+If an invalid coordinate is provided, `InvalidCoordinateError` will be raised.
+
+```python
+from placekit import InvalidCoordinateError, distance_between
+
+try:
+    distance = distance_between(
+        (200, 79.9729),
+        (6.9271, 79.8612),
+    )
+except InvalidCoordinateError as error:
+    print(error)
+```
+
+Example output:
+
+```text
+Latitude must be between -90 and 90.
+```
+
 ## Roadmap
 
 - [x] Add distance model
