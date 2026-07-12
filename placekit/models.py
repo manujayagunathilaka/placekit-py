@@ -2,6 +2,13 @@
 
 from dataclasses import dataclass
 
+@dataclass(frozen=True)
+class Location:
+    """Represents a geographic location using latitude and longitude."""
+
+    latitude: float
+    longitude: float
+
 
 @dataclass(frozen=True)
 class Distance:

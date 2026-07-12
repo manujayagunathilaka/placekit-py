@@ -1,7 +1,7 @@
 """Tests for distance calculation utilities."""
 import pytest
 
-from placekit import distance_between, InvalidCoordinateError
+from placekit import distance_between, InvalidCoordinateError, Location
 
 
 def test_distance_between_same_coordinates():
@@ -38,3 +38,13 @@ def test_distance_between_invalid_longitude():
             (6.9147, 200),
             (6.9271, 79.8612),
         )
+
+def test_distance_between_location_objects():
+    origin = Location(latitude=6.9147, longitude=79.9729)
+    destination = Location(latitude=6.9271, longitude=79.8612)
+
+    distance = distance_between(origin, destination)
+
+    assert distance.km == 12.407
+    assert distance.meters == 12406.83
+    assert distance.miles == 7.709
