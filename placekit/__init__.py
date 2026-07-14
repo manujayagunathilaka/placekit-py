@@ -3,6 +3,7 @@
 from placekit.distance import distance_between
 from placekit.models import Distance, Location, Place
 from placekit.exceptions import PlaceKitError, InvalidCoordinateError
+from placekit.categories import PlaceCategory
 
 __version__ = "0.1.0"
 
@@ -13,4 +14,5 @@ __all__ = [
     "distance_between",
     "InvalidCoordinateError",
     "PlaceKitError",
+    "PlaceCategory",
 ]
