@@ -32,12 +32,13 @@ Current features:
 - Distance result in kilometers, meters, and miles
 - Coordinate validation
 - `Location` object support
+- `Place` object support
 - Custom exceptions for invalid coordinates
 - Automated tests with `pytest`
 
 Planned features:
 
-- Place data model
+- Place categories
 - Nearby places finder
 - Provider support for OpenStreetMap and Google Places
 - CLI support
@@ -146,6 +147,40 @@ Example output:
 7.709
 ```
 
+## Using Place Objects
+
+`placekit-py` provides a `Place` model for representing real-world places.
+
+A `Place` includes:
+
+- `name`: The name of the place
+- `category`: The type or category of the place
+- `location`: A `Location` object containing latitude and longitude
+
+```python
+from placekit import Location, Place
+
+place = Place(
+    name="ABC University",
+    category="university",
+    location=Location(latitude=6.9147, longitude=79.9729),
+)
+
+print(place.name)
+print(place.category)
+print(place.location.latitude)
+print(place.location.longitude)
+```
+
+Example output:
+
+```text
+ABC University
+university
+6.9147
+79.9729
+```
+
 ## Coordinate Validation
 
 `placekit-py` validates latitude and longitude values before calculating distance.
@@ -221,6 +256,20 @@ from placekit import Location
 location = Location(latitude=6.9147, longitude=79.9729)
 ```
 
+### `Place`
+
+Represents a place with a name, category, and location.
+
+```python
+from placekit import Location, Place
+
+place = Place(
+    name="ABC University",
+    category="university",
+    location=Location(latitude=6.9147, longitude=79.9729),
+)
+```
+
 ### `Distance`
 
 Represents a distance value in multiple units.
@@ -250,7 +299,8 @@ from placekit import InvalidCoordinateError
 - [x] Add custom exceptions
 - [x] Add `Location` model
 - [x] Add `Location` object support for distance calculation
-- [ ] Add place data model
+- [x] Add `Place` model
+- [ ] Add place categories
 - [ ] Add geocoding support
 - [ ] Add nearby places finder
 - [ ] Add OpenStreetMap provider
