@@ -181,6 +181,52 @@ university
 79.9729
 ```
 
+## Using Place Categories
+
+`placekit-py` provides common place category constants through `PlaceCategory`.
+
+These constants are provided for convenience and to reduce spelling mistakes. You can still use custom category strings when needed.
+
+```python
+from placekit import Location, Place, PlaceCategory
+
+place = Place(
+    name="ABC University",
+    category=PlaceCategory.UNIVERSITY,
+    location=Location(latitude=6.9147, longitude=79.9729),
+)
+
+print(place.name)
+print(place.category)
+```
+
+Example output:
+
+```text
+ABC University
+university
+```
+
+Custom categories are also allowed:
+
+```python
+from placekit import Location, Place
+
+place = Place(
+    name="Sample Gym",
+    category="gym",
+    location=Location(latitude=6.9147, longitude=79.9729),
+)
+
+print(place.category)
+```
+
+Example output:
+
+```text
+gym
+```
+
 ## Coordinate Validation
 
 `placekit-py` validates latitude and longitude values before calculating distance.
@@ -300,7 +346,7 @@ from placekit import InvalidCoordinateError
 - [x] Add `Location` model
 - [x] Add `Location` object support for distance calculation
 - [x] Add `Place` model
-- [ ] Add place categories
+- [x] Add place category constants
 - [ ] Add geocoding support
 - [ ] Add nearby places finder
 - [ ] Add OpenStreetMap provider
