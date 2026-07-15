@@ -411,6 +411,25 @@ print(client.provider)
 
 `BasePlaceProvider` is only a base class. Real providers such as OpenStreetMap and Google Places will be added in future versions.
 
+The client can delegate nearby place searches to the configured provider:
+
+```python
+from placekit import Location, PlaceCategory, PlaceKitClient
+from placekit.providers.base import BasePlaceProvider
+
+provider = BasePlaceProvider()
+client = PlaceKitClient(provider=provider)
+
+places = client.nearby(
+    location=Location(latitude=6.9147, longitude=79.9729),
+    categories=[PlaceCategory.UNIVERSITY],
+    radius_km=2,
+    limit=10,
+)
+```
+
+> Note: `BasePlaceProvider` is only a base class. Calling `nearby()` on it directly will raise `NotImplementedError`. Real providers such as OpenStreetMap and Google Places will be added in future versions.
+
 ## Roadmap
 
 - [x] Add distance model
@@ -427,6 +446,7 @@ print(client.provider)
 - [x] Add place category helper methods
 - [x] Add provider base structure
 - [x] Add client skeleton
+- [x] Add client nearby delegation
 - [ ] Add nearby places finder
 - [ ] Add OpenStreetMap provider
 - [ ] Add Google Places provider
