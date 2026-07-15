@@ -369,6 +369,29 @@ Raised when latitude or longitude values are outside the valid coordinate range.
 from placekit import InvalidCoordinateError
 ```
 
+## Provider Architecture
+
+`placekit-py` is designed to support multiple nearby place providers in the future.
+
+Planned providers include:
+
+- OpenStreetMap
+- Google Places
+
+The provider layer will allow the same high-level API to work with different data sources.
+
+Current provider foundation:
+
+```python
+from placekit.providers.base import BasePlaceProvider
+
+provider = BasePlaceProvider()
+```
+
+`BasePlaceProvider` defines the expected structure for future providers.
+
+Provider implementations should define a `nearby()` method for finding places around a location.
+
 ## Roadmap
 
 - [x] Add distance model
@@ -383,6 +406,7 @@ from placekit import InvalidCoordinateError
 - [x] Add `Place` model
 - [x] Add place category constants
 - [x] Add place category helper methods
+- [x] Add provider base structure
 - [ ] Add nearby places finder
 - [ ] Add OpenStreetMap provider
 - [ ] Add Google Places provider
