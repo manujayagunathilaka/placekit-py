@@ -34,3 +34,12 @@ def test_place_model_with_place_category():
     assert place.name == "ABC University"
     assert place.category == "university"
     assert place.location == location
+
+def test_place_category_all():
+    categories = PlaceCategory.all()
+
+    assert "university" in categories
+    assert "hospital" in categories
+    assert "bus_stop" in categories
+    assert "hotel" in categories
+    assert len(categories) == 12

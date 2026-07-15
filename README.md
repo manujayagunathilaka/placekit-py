@@ -33,12 +33,13 @@ Current features:
 - Coordinate validation
 - `Location` object support
 - `Place` object support
+- Place category constants
+- Place category helper methods
 - Custom exceptions for invalid coordinates
 - Automated tests with `pytest`
 
 Planned features:
 
-- Place categories
 - Nearby places finder
 - Provider support for OpenStreetMap and Google Places
 - CLI support
@@ -227,6 +228,22 @@ Example output:
 gym
 ```
 
+You can also list the built-in categories:
+
+```python
+from placekit import PlaceCategory
+
+categories = PlaceCategory.all()
+
+print(categories)
+```
+
+Example output:
+
+```text
+['university', 'school', 'hospital', 'pharmacy', 'restaurant', 'cafe', 'supermarket', 'atm', 'bank', 'bus_stop', 'train_station', 'hotel']
+```
+
 ## Coordinate Validation
 
 `placekit-py` validates latitude and longitude values before calculating distance.
@@ -316,6 +333,24 @@ place = Place(
 )
 ```
 
+### `PlaceCategory`
+
+Provides common place category constants.
+
+```python
+from placekit import PlaceCategory
+
+category = PlaceCategory.UNIVERSITY
+```
+
+List all built-in categories:
+
+```python
+from placekit import PlaceCategory
+
+categories = PlaceCategory.all()
+```
+
 ### `Distance`
 
 Represents a distance value in multiple units.
@@ -347,7 +382,7 @@ from placekit import InvalidCoordinateError
 - [x] Add `Location` object support for distance calculation
 - [x] Add `Place` model
 - [x] Add place category constants
-- [ ] Add geocoding support
+- [x] Add place category helper methods
 - [ ] Add nearby places finder
 - [ ] Add OpenStreetMap provider
 - [ ] Add Google Places provider
