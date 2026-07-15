@@ -392,6 +392,25 @@ provider = BasePlaceProvider()
 
 Provider implementations should define a `nearby()` method for finding places around a location.
 
+
+## Client Interface
+
+`placekit-py` provides a `PlaceKitClient` class as the main entry point for provider-based features.
+
+The client accepts a place provider instance.
+
+```python
+from placekit import PlaceKitClient
+from placekit.providers.base import BasePlaceProvider
+
+provider = BasePlaceProvider()
+client = PlaceKitClient(provider=provider)
+
+print(client.provider)
+```
+
+`BasePlaceProvider` is only a base class. Real providers such as OpenStreetMap and Google Places will be added in future versions.
+
 ## Roadmap
 
 - [x] Add distance model
@@ -407,6 +426,7 @@ Provider implementations should define a `nearby()` method for finding places ar
 - [x] Add place category constants
 - [x] Add place category helper methods
 - [x] Add provider base structure
+- [x] Add client skeleton
 - [ ] Add nearby places finder
 - [ ] Add OpenStreetMap provider
 - [ ] Add Google Places provider
