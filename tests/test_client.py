@@ -1,7 +1,7 @@
 """Tests for the main PlaceKit client."""
 
 from placekit import Location, Place, PlaceCategory, PlaceKitClient
-from placekit.providers.base import BasePlaceProvider
+from placekit.providers import BasePlaceProvider
 
 
 class MockPlaceProvider(BasePlaceProvider):
