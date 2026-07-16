@@ -35,13 +35,17 @@ Current features:
 - `Place` object support
 - Place category constants
 - Place category helper methods
+- Provider base structure
+- `PlaceKitClient` interface
+- Client nearby delegation
+- In-memory place provider
 - Custom exceptions for invalid coordinates
 - Automated tests with `pytest`
 
 Planned features:
 
-- Nearby places finder
-- Provider support for OpenStreetMap and Google Places
+- OpenStreetMap provider
+- Google Places provider
 - CLI support
 - PyPI release
 
@@ -273,6 +277,118 @@ Example output:
 Latitude must be between -90 and 90.
 ```
 
+## Provider Architecture
+
+`placekit-py` is designed to support multiple nearby place providers in the future.
+
+Planned providers include:
+
+- OpenStreetMap
+- Google Places
+
+The provider layer will allow the same high-level API to work with different data sources.
+
+Current provider foundation:
+
+```python
+from placekit.providers import BasePlaceProvider
+
+provider = BasePlaceProvider()
+```
+
+`BasePlaceProvider` defines the expected structure for future providers.
+
+Provider implementations should define a `nearby()` method for finding places around a location.
+
+## Client Interface
+
+`placekit-py` provides a `PlaceKitClient` class as the main entry point for provider-based features.
+
+The client accepts a place provider instance.
+
+```python
+from placekit import PlaceKitClient
+from placekit.providers import BasePlaceProvider
+
+provider = BasePlaceProvider()
+client = PlaceKitClient(provider=provider)
+
+print(client.provider)
+```
+
+`BasePlaceProvider` is only a base class. Real providers such as OpenStreetMap and Google Places will be added in future versions.
+
+The client can delegate nearby place searches to the configured provider:
+
+```python
+from placekit import Location, PlaceCategory, PlaceKitClient
+from placekit.providers import BasePlaceProvider
+
+provider = BasePlaceProvider()
+client = PlaceKitClient(provider=provider)
+
+places = client.nearby(
+    location=Location(latitude=6.9147, longitude=79.9729),
+    categories=[PlaceCategory.UNIVERSITY],
+    radius_km=2,
+    limit=10,
+)
+```
+
+> Note: `BasePlaceProvider` is only a base class. Calling `nearby()` on it directly will raise `NotImplementedError`. Real providers such as OpenStreetMap and Google Places will be added in future versions.
+
+## In-Memory Provider
+
+`placekit-py` includes an `InMemoryPlaceProvider` for testing, demos, and local development.
+
+This provider searches from a list of `Place` objects without calling an external API.
+
+```python
+from placekit import Location, Place, PlaceCategory, PlaceKitClient
+from placekit.providers import InMemoryPlaceProvider
+
+base_location = Location(latitude=6.9147, longitude=79.9729)
+
+places = [
+    Place(
+        name="ABC University",
+        category=PlaceCategory.UNIVERSITY,
+        location=Location(latitude=6.9150, longitude=79.9730),
+    ),
+    Place(
+        name="Sample Hospital",
+        category=PlaceCategory.HOSPITAL,
+        location=Location(latitude=6.9160, longitude=79.9740),
+    ),
+]
+
+provider = InMemoryPlaceProvider(places=places)
+client = PlaceKitClient(provider=provider)
+
+nearby_places = client.nearby(
+    location=base_location,
+    categories=[PlaceCategory.UNIVERSITY],
+    radius_km=1,
+    limit=5,
+)
+
+for place in nearby_places:
+    print(place.name)
+```
+
+Example output:
+
+```text
+ABC University
+```
+
+The in-memory provider supports:
+
+- Category filtering
+- Radius filtering
+- Nearest-first sorting
+- Result limiting
+
 ## API Reference
 
 ### `distance_between(origin, destination)`
@@ -351,6 +467,49 @@ from placekit import PlaceCategory
 categories = PlaceCategory.all()
 ```
 
+### `PlaceKitClient`
+
+Main client interface for provider-based features.
+
+```python
+from placekit import PlaceKitClient
+from placekit.providers import InMemoryPlaceProvider
+
+provider = InMemoryPlaceProvider(places=[])
+client = PlaceKitClient(provider=provider)
+```
+
+### `BasePlaceProvider`
+
+Base class for implementing nearby place providers.
+
+```python
+from placekit.providers import BasePlaceProvider
+```
+
+Provider implementations should define a `nearby()` method.
+
+### `InMemoryPlaceProvider`
+
+Provider implementation that searches from an in-memory list of places.
+
+```python
+from placekit import Location, Place, PlaceCategory
+from placekit.providers import InMemoryPlaceProvider
+
+location = Location(latitude=6.9147, longitude=79.9729)
+
+provider = InMemoryPlaceProvider(
+    places=[
+        Place(
+            name="ABC University",
+            category=PlaceCategory.UNIVERSITY,
+            location=location,
+        )
+    ]
+)
+```
+
 ### `Distance`
 
 Represents a distance value in multiple units.
@@ -369,67 +528,6 @@ Raised when latitude or longitude values are outside the valid coordinate range.
 from placekit import InvalidCoordinateError
 ```
 
-## Provider Architecture
-
-`placekit-py` is designed to support multiple nearby place providers in the future.
-
-Planned providers include:
-
-- OpenStreetMap
-- Google Places
-
-The provider layer will allow the same high-level API to work with different data sources.
-
-Current provider foundation:
-
-```python
-from placekit.providers.base import BasePlaceProvider
-
-provider = BasePlaceProvider()
-```
-
-`BasePlaceProvider` defines the expected structure for future providers.
-
-Provider implementations should define a `nearby()` method for finding places around a location.
-
-
-## Client Interface
-
-`placekit-py` provides a `PlaceKitClient` class as the main entry point for provider-based features.
-
-The client accepts a place provider instance.
-
-```python
-from placekit import PlaceKitClient
-from placekit.providers.base import BasePlaceProvider
-
-provider = BasePlaceProvider()
-client = PlaceKitClient(provider=provider)
-
-print(client.provider)
-```
-
-`BasePlaceProvider` is only a base class. Real providers such as OpenStreetMap and Google Places will be added in future versions.
-
-The client can delegate nearby place searches to the configured provider:
-
-```python
-from placekit import Location, PlaceCategory, PlaceKitClient
-from placekit.providers.base import BasePlaceProvider
-
-provider = BasePlaceProvider()
-client = PlaceKitClient(provider=provider)
-
-places = client.nearby(
-    location=Location(latitude=6.9147, longitude=79.9729),
-    categories=[PlaceCategory.UNIVERSITY],
-    radius_km=2,
-    limit=10,
-)
-```
-
-> Note: `BasePlaceProvider` is only a base class. Calling `nearby()` on it directly will raise `NotImplementedError`. Real providers such as OpenStreetMap and Google Places will be added in future versions.
-
 ## Roadmap
 
 - [x] Add distance model
@@ -447,7 +545,7 @@ places = client.nearby(
 - [x] Add provider base structure
 - [x] Add client skeleton
 - [x] Add client nearby delegation
-- [ ] Add nearby places finder
+- [x] Add in-memory place provider
 - [ ] Add OpenStreetMap provider
 - [ ] Add Google Places provider
 - [ ] Add CLI support
