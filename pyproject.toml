@@ -35,6 +35,7 @@ classifiers = [
 [project.optional-dependencies]
 dev = [
     "pytest>=8.0",
+    "ruff>=0.6.0",
 ]
 
 [project.urls]
@@ -44,3 +45,10 @@ Issues = "https://github.com/manujayagunathilaka/placekit-py/issues"
 
 [tool.setuptools.packages.find]
 include = ["placekit*"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

@@ -5,16 +5,19 @@ from math import atan2, cos, radians, sin, sqrt
 from placekit.exceptions import InvalidCoordinateError
 from placekit.models import Distance, Location
 
-
 EARTH_RADIUS_KM = 6371.0
 KM_TO_MILES = 0.621371
 
-def _normalize_coordinate(coordinate: tuple[float, float] | Location) -> tuple[float, float]:
+
+def _normalize_coordinate(
+    coordinate: tuple[float, float] | Location,
+) -> tuple[float, float]:
     """Normalize a coordinate input into a latitude/logitude tuple."""
     if isinstance(coordinate, Location):
         return coordinate.latitude, coordinate.longitude
 
     return coordinate
+
 
 def _validate_coordinate(coordinate: tuple[float, float]) -> None:
     """Validate a latitude/longitude coordinate pair."""
@@ -26,7 +29,11 @@ def _validate_coordinate(coordinate: tuple[float, float]) -> None:
     if not -180 <= longitude <= 180:
         raise InvalidCoordinateError("Longitude must be between -180 and 180.")
 
-def distance_between(origin: tuple[float, float] | Location, destination: tuple[float, float] | Location,) -> Distance:
+
+def distance_between(
+    origin: tuple[float, float] | Location,
+    destination: tuple[float, float] | Location,
+) -> Distance:
     """Calculate the distance between two latitude/longitude coordinates."""
     origin_coordinate = _normalize_coordinate(origin)
     destination_coordinate = _normalize_coordinate(destination)
@@ -47,9 +54,7 @@ def distance_between(origin: tuple[float, float] | Location, destination: tuple[
 
     a = (
         sin(lat_difference / 2) ** 2
-        + cos(origin_lat_rad)
-        * cos(destination_lat_rad)
-        * sin(lon_difference / 2) ** 2
+        + cos(origin_lat_rad) * cos(destination_lat_rad) * sin(lon_difference / 2) ** 2
     )
     a = min(1.0, max(0.0, a))
 
@@ -63,4 +68,3 @@ def distance_between(origin: tuple[float, float] | Location, destination: tuple[
         meters=round(distance_meters, 2),
         miles=round(distance_miles, 3),
     )
-

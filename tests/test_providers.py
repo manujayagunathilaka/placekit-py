@@ -9,12 +9,15 @@ from placekit.providers import BasePlaceProvider, InMemoryPlaceProvider
 def test_base_place_provider_nearby_not_implemented():
     provider = BasePlaceProvider()
 
-    with pytest.raises(NotImplementedError, match="Providers must implement the nearby method."):
+    with pytest.raises(
+        NotImplementedError, match="Providers must implement the nearby method."
+    ):
         provider.nearby(
             location=Location(latitude=6.9147, longitude=79.9729),
             categories=["university"],
             radius_km=2,
         )
+
 
 def test_in_memory_provider_filters_by_category():
     location = Location(latitude=6.9147, longitude=79.9729)
