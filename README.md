@@ -41,6 +41,7 @@ Current features:
 - In-memory place provider
 - Custom exceptions for invalid coordinates
 - Automated tests with `pytest`
+- Code quality checks with `ruff`
 
 Planned features:
 
@@ -85,6 +86,34 @@ Run the distance example:
 
 ```bash
 python examples/distance_example.py
+```
+
+## Code Quality
+
+Run Ruff lint checks:
+
+```bash
+ruff check .
+```
+
+Check code formatting:
+
+```bash
+ruff format --check .
+```
+
+Format code:
+
+```bash
+ruff format .
+```
+
+Recommended checks before opening a pull request:
+
+```bash
+ruff check .
+ruff format --check .
+pytest
 ```
 
 ## Quick Example
@@ -546,6 +575,7 @@ from placekit import InvalidCoordinateError
 - [x] Add client skeleton
 - [x] Add client nearby delegation
 - [x] Add in-memory place provider
+- [x] Add code quality tooling
 - [ ] Add OpenStreetMap provider
 - [ ] Add Google Places provider
 - [ ] Add CLI support
