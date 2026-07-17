@@ -1,5 +1,7 @@
 # placekit-py
 
+[![CI](https://github.com/manujayagunathilaka/placekit-py/actions/workflows/ci.yml/badge.svg)](https://github.com/manujayagunathilaka/placekit-py/actions/workflows/ci.yml)
+
 A Python toolkit for distance calculations, nearby places, and geolocation provider integrations.
 
 > This project is currently in early development.
@@ -8,21 +10,21 @@ A Python toolkit for distance calculations, nearby places, and geolocation provi
 
 `placekit-py` is a lightweight Python package for building location-based applications.
 
-It is designed to help developers work with:
+It provides reusable utilities and models for working with geographic locations, places, categories, distance calculations, and provider-based nearby place search.
 
-- Distance calculations
-- Nearby places
-- Geolocation providers
-- Location-based app utilities
+## Why placekit-py?
 
-This package can be useful for projects such as:
+Many location-based applications need the same basic features:
 
-- Boarding and hostel finder apps
-- Real estate applications
-- Travel applications
-- Delivery applications
-- Campus location apps
-- Emergency service apps
+- Calculating distance between two locations
+- Representing locations and places in a clean structure
+- Filtering nearby places by category and radius
+- Sorting nearby places by distance
+- Supporting different place data providers in the future
+
+Developers often rebuild these utilities repeatedly for projects such as real estate platforms, travel applications, delivery tools, campus location systems, local discovery apps, and emergency service tools.
+
+`placekit-py` aims to provide a simple, reusable Python toolkit for these common location-based features.
 
 ## Features
 
@@ -42,6 +44,7 @@ Current features:
 - Custom exceptions for invalid coordinates
 - Automated tests with `pytest`
 - Code quality checks with `ruff`
+- GitHub Actions CI
 
 Planned features:
 
@@ -54,11 +57,12 @@ Planned features:
 
 This package is not published to PyPI yet.
 
-For local development:
+Install from source for local development:
 
 ```bash
 git clone https://github.com/manujayagunathilaka/placekit-py.git
 cd placekit-py
+pip install -e .
 ```
 
 ## Development Setup
@@ -143,7 +147,7 @@ Example output:
 
 `placekit-py` currently provides a simple straight-line distance calculator using latitude and longitude coordinates.
 
-This calculates the direct distance between two points, not road or travel distance.
+> Note: This calculates direct straight-line distance between two points, not road distance, route distance, or travel time.
 
 ```python
 from placekit import distance_between
@@ -364,7 +368,7 @@ places = client.nearby(
 )
 ```
 
-> Note: `BasePlaceProvider` is only a base class. Calling `nearby()` on it directly will raise `NotImplementedError`. Real providers such as OpenStreetMap and Google Places will be added in future versions.
+> Note: Calling `nearby()` on `BasePlaceProvider` directly will raise `NotImplementedError`. Real providers such as OpenStreetMap and Google Places will be added in future versions.
 
 ## In-Memory Provider
 
@@ -576,6 +580,7 @@ from placekit import InvalidCoordinateError
 - [x] Add client nearby delegation
 - [x] Add in-memory place provider
 - [x] Add code quality tooling
+- [x] Add GitHub Actions CI
 - [ ] Add OpenStreetMap provider
 - [ ] Add Google Places provider
 - [ ] Add CLI support
@@ -583,16 +588,33 @@ from placekit import InvalidCoordinateError
 
 ## Project Status
 
-This project is in the initial development stage.
+`placekit-py` is currently in early development.
 
-The first milestone is focused on building a simple and reliable distance calculation utility before adding external geolocation providers.
+The `v0.1.0` release focuses on the core foundation:
+
+- Distance calculation
+- Location and place models
+- Place categories
+- Provider architecture
+- In-memory nearby place search
+- Test and code quality tooling
+
+External providers such as OpenStreetMap and Google Places are planned for future releases.
 
 ## Contributing
 
 Contributions are welcome.
 
-Since this project is still in early development, please open an issue before adding large features or changing the core API design.
+For now, please open an issue before adding large features or changing the public API.
+
+Before opening a pull request, run:
+
+```bash
+ruff check .
+ruff format --check .
+pytest
+```
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the [MIT License](LICENSE).
