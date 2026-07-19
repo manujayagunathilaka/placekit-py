@@ -1,0 +1,42 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+This project follows semantic versioning where possible.
+
+## [0.1.0] - Unreleased
+
+### Added
+
+- Added distance calculation between two geographic coordinates.
+- Added `Distance` model with kilometer, meter, and mile values.
+- Added `Location` model for latitude and longitude values.
+- Added `Place` model for representing real-world places.
+- Added coordinate validation for latitude and longitude values.
+- Added custom exceptions, including `InvalidCoordinateError`.
+- Added `PlaceCategory` constants for common place categories.
+- Added `PlaceCategory.all()` helper method.
+- Added provider base structure with `BasePlaceProvider`.
+- Added `PlaceKitClient` as the main client interface.
+- Added client nearby delegation to configured providers.
+- Added `InMemoryPlaceProvider` for local demos and tests.
+- Added automated tests with `pytest`.
+- Added Ruff linting and formatting setup.
+- Added GitHub Actions CI workflow.
+- Added community health files:
+  - `CONTRIBUTING.md`
+  - `SECURITY.md`
+  - `CODE_OF_CONDUCT.md`
+
+### Documentation
+
+- Added README documentation for installation, development setup, code quality, examples, provider architecture, and API usage.
+- Added CI badge to the README.
+- Added project status and release scope notes.
+- Added linked MIT License reference in the README.
+
+### Notes
+
+This release focuses on the core foundation of `placekit-py`.
+
+External providers such as OpenStreetMap and Google Places are planned for future releases.
