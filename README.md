@@ -615,6 +615,10 @@ ruff format --check .
 pytest
 ```
 
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for release history.
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
