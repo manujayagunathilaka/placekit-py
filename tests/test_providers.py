@@ -3,7 +3,11 @@
 import pytest
 
 from placekit import Location, Place, PlaceCategory
-from placekit.providers import BasePlaceProvider, InMemoryPlaceProvider, OpenStreetMapProvider
+from placekit.providers import (
+    BasePlaceProvider,
+    InMemoryPlaceProvider,
+    OpenStreetMapProvider,
+)
 
 
 def test_base_place_provider_nearby_not_implemented():
