@@ -41,6 +41,7 @@ Current features:
 - `PlaceKitClient` interface
 - Client nearby delegation
 - In-memory place provider
+- Initial OpenStreetMap provider skeleton
 - Custom exceptions for invalid coordinates
 - Automated tests with `pytest`
 - Code quality checks with `ruff`
@@ -48,7 +49,7 @@ Current features:
 
 Planned features:
 
-- OpenStreetMap provider
+- OpenStreetMap provider implementation with Overpass API
 - Google Places provider
 - CLI support
 - PyPI release
@@ -333,6 +334,8 @@ provider = BasePlaceProvider()
 
 Provider implementations should define a `nearby()` method for finding places around a location.
 
+The initial `OpenStreetMapProvider` skeleton is available, but real OpenStreetMap / Overpass API requests are not implemented yet.
+
 ## Client Interface
 
 `placekit-py` provides a `PlaceKitClient` class as the main entry point for provider-based features.
@@ -543,6 +546,18 @@ provider = InMemoryPlaceProvider(
 )
 ```
 
+### `OpenStreetMapProvider`
+
+Provider skeleton for future OpenStreetMap-based nearby place search.
+
+```python
+from placekit.providers import OpenStreetMapProvider
+
+provider = OpenStreetMapProvider()
+```
+
+> Note: Real OpenStreetMap / Overpass API requests are not implemented yet.
+
 ### `Distance`
 
 Represents a distance value in multiple units.
@@ -581,7 +596,8 @@ from placekit import InvalidCoordinateError
 - [x] Add in-memory place provider
 - [x] Add code quality tooling
 - [x] Add GitHub Actions CI
-- [ ] Add OpenStreetMap provider
+- [x] Add OpenStreetMap provider skeleton
+- [ ] Implement OpenStreetMap provider with Overpass API
 - [ ] Add Google Places provider
 - [ ] Add CLI support
 - [ ] Publish to PyPI
@@ -599,7 +615,9 @@ The `v0.1.0` release focuses on the core foundation:
 - In-memory nearby place search
 - Test and code quality tooling
 
-External providers such as OpenStreetMap and Google Places are planned for future releases.
+The `v0.2.0` milestone focuses on OpenStreetMap provider support.
+
+External providers such as Google Places are planned for future releases.
 
 ## Contributing
 
