@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 This project follows semantic versioning where possible.
 
+## [0.2.0] - Unreleased
+
+### Added
+
+- Added initial `OpenStreetMapProvider` skeleton.
+- Exported `OpenStreetMapProvider` from `placekit.providers`.
+- Added tests for the OpenStreetMap provider skeleton.
+
+### Notes
+
+Real OpenStreetMap / Overpass API requests are not implemented yet.
+
 ## [0.1.0] - 2026-07-19
 
 ### Added

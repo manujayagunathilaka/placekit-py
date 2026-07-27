@@ -3,7 +3,7 @@
 import pytest
 
 from placekit import Location, Place, PlaceCategory
-from placekit.providers import BasePlaceProvider, InMemoryPlaceProvider
+from placekit.providers import BasePlaceProvider, InMemoryPlaceProvider, OpenStreetMapProvider
 
 
 def test_base_place_provider_nearby_not_implemented():
@@ -141,3 +141,17 @@ def test_in_memory_provider_applies_limit():
     assert len(places) == 2
     assert places[0].name == "University A"
     assert places[1].name == "University B"
+
+
+def test_openstreetmap_provider_nearby_not_implemented():
+    provider = OpenStreetMapProvider()
+
+    with pytest.raises(
+        NotImplementedError,
+        match="OpenStreetMapProvider nearby search is not implemented yet.",
+    ):
+        provider.nearby(
+            location=Location(latitude=6.9147, longitude=79.9729),
+            categories=[PlaceCategory.UNIVERSITY],
+            radius_km=2,
+        )
