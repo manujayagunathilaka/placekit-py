@@ -18,6 +18,8 @@ OSM_TAGS_BY_CATEGORY = {
 }
 
 
-def get_osm_tags(category: str) -> dict[str, str] | None:
+def get_osm_tags(
+        category: str
+) -> dict[str, str] | None:
     """Return OpenStreetMap tags for a place category."""
     return OSM_TAGS_BY_CATEGORY.get(category)
