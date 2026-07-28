@@ -11,6 +11,9 @@ This project follows semantic versioning where possible.
 - Added initial `OpenStreetMapProvider` skeleton.
 - Exported `OpenStreetMapProvider` from `placekit.providers`.
 - Added tests for the OpenStreetMap provider skeleton.
+- Added OpenStreetMap tag mappings for existing `PlaceCategory` values.
+- Added `get_osm_tags()` helper for retrieving OSM tags by category.
+- Added tests for supported and unsupported OSM tag mappings.
 
 ### Notes
 
