@@ -42,6 +42,7 @@ Current features:
 - Client nearby delegation
 - In-memory place provider
 - Initial OpenStreetMap provider skeleton
+- OpenStreetMap tag mapping for place categories
 - Custom exceptions for invalid coordinates
 - Automated tests with `pytest`
 - Code quality checks with `ruff`
@@ -336,6 +337,33 @@ Provider implementations should define a `nearby()` method for finding places ar
 
 The initial `OpenStreetMapProvider` skeleton is available, but real OpenStreetMap / Overpass API requests are not implemented yet.
 
+## OpenStreetMap Tag Mapping
+
+`placekit-py` includes an internal mapping layer for converting `PlaceCategory` values into OpenStreetMap tags.
+
+This mapping will be used by the future OpenStreetMap provider implementation.
+
+Example mappings:
+
+```python
+from placekit import PlaceCategory
+from placekit.providers.osm_tags import get_osm_tags
+
+print(get_osm_tags(PlaceCategory.UNIVERSITY))
+print(get_osm_tags(PlaceCategory.SUPERMARKET))
+print(get_osm_tags("gym"))
+```
+
+Example output:
+
+```text
+{'amenity': 'university'}
+{'shop': 'supermarket'}
+None
+```
+
+Unsupported or custom categories return `None` because they may not have a known OpenStreetMap tag mapping yet.
+
 ## Client Interface
 
 `placekit-py` provides a `PlaceKitClient` class as the main entry point for provider-based features.
@@ -558,6 +586,25 @@ provider = OpenStreetMapProvider()
 
 > Note: Real OpenStreetMap / Overpass API requests are not implemented yet.
 
+### `get_osm_tags(category)`
+
+Returns OpenStreetMap tags for a supported place category.
+
+```python
+from placekit import PlaceCategory
+from placekit.providers.osm_tags import get_osm_tags
+
+tags = get_osm_tags(PlaceCategory.UNIVERSITY)
+```
+
+Returns:
+
+```python
+{"amenity": "university"}
+```
+
+Unsupported categories return `None`.
+
 ### `Distance`
 
 Represents a distance value in multiple units.
@@ -597,6 +644,7 @@ from placekit import InvalidCoordinateError
 - [x] Add code quality tooling
 - [x] Add GitHub Actions CI
 - [x] Add OpenStreetMap provider skeleton
+- [x] Add OSM tag mapping for place categories
 - [ ] Implement OpenStreetMap provider with Overpass API
 - [ ] Add Google Places provider
 - [ ] Add CLI support
