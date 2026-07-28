@@ -14,6 +14,9 @@ This project follows semantic versioning where possible.
 - Added OpenStreetMap tag mappings for existing `PlaceCategory` values.
 - Added `get_osm_tags()` helper for retrieving OSM tags by category.
 - Added tests for supported and unsupported OSM tag mappings.
+- Added Overpass query builder for future OpenStreetMap provider support.
+- Added tests for generated Overpass query strings.
+- Added support for custom Overpass timeout values.
 
 ### Notes
 

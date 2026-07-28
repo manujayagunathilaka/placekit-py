@@ -43,6 +43,7 @@ Current features:
 - In-memory place provider
 - Initial OpenStreetMap provider skeleton
 - OpenStreetMap tag mapping for place categories
+- Overpass query builder
 - Custom exceptions for invalid coordinates
 - Automated tests with `pytest`
 - Code quality checks with `ruff`
@@ -364,6 +365,39 @@ None
 
 Unsupported or custom categories return `None` because they may not have a known OpenStreetMap tag mapping yet.
 
+## Overpass Query Builder
+
+`placekit-py` includes an Overpass query builder for future OpenStreetMap provider support.
+
+This helper builds Overpass API query strings from a location, radius, and OpenStreetMap tags.
+
+```python
+from placekit.providers.overpass import build_overpass_query
+
+query = build_overpass_query(
+    latitude=6.9147,
+    longitude=79.9729,
+    radius_meters=2000,
+    tags={"amenity": "university"},
+)
+
+print(query)
+```
+
+Example output:
+
+```text
+[out:json][timeout:25];
+(
+  node["amenity"="university"](around:2000,6.9147,79.9729);
+  way["amenity"="university"](around:2000,6.9147,79.9729);
+  relation["amenity"="university"](around:2000,6.9147,79.9729);
+);
+out center;
+```
+
+This builder does not make real HTTP requests. It only creates the query string that will be used by the future OpenStreetMap provider implementation.
+
 ## Client Interface
 
 `placekit-py` provides a `PlaceKitClient` class as the main entry point for provider-based features.
@@ -605,6 +639,27 @@ Returns:
 
 Unsupported categories return `None`.
 
+### `build_overpass_query(...)`
+
+Builds an Overpass API query string for nearby OpenStreetMap features.
+
+```python
+from placekit.providers.overpass import build_overpass_query
+
+query = build_overpass_query(
+    latitude=6.9147,
+    longitude=79.9729,
+    radius_meters=2000,
+    tags={"amenity": "university"},
+)
+```
+
+Returns an Overpass query string.
+
+The query includes `node`, `way`, and `relation` searches and outputs center coordinates for area-based results.
+
+> Note: This helper only builds the query string. It does not send HTTP requests.
+
 ### `Distance`
 
 Represents a distance value in multiple units.
@@ -645,6 +700,7 @@ from placekit import InvalidCoordinateError
 - [x] Add GitHub Actions CI
 - [x] Add OpenStreetMap provider skeleton
 - [x] Add OSM tag mapping for place categories
+- [x] Add Overpass query builder
 - [ ] Implement OpenStreetMap provider with Overpass API
 - [ ] Add Google Places provider
 - [ ] Add CLI support
