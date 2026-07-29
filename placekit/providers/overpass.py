@@ -1,6 +1,11 @@
 """Overpass API query building and parsing utilities."""
 
+import requests
+
 from placekit.models import Location, Place
+
+DEFAULT_OVERPASS_ENDPOINT = "https://overpass-api.de/api/interpreter"
+DEFAULT_USER_AGENT = "placekit-py/0.1.0"
 
 
 def build_overpass_query(
@@ -50,6 +55,25 @@ def parse_overpass_response(
         )
 
     return places
+
+
+def fetch_overpass_data(
+    query: str,
+    endpoint: str = DEFAULT_OVERPASS_ENDPOINT,
+    timeout: int = 25,
+    user_agent: str = DEFAULT_USER_AGENT,
+) -> dict:
+    """Fetch data from the Overpass API."""
+    response = requests.post(
+        endpoint,
+        data={"data": query},
+        headers={"User-Agent": user_agent},
+        timeout=timeout,
+    )
+
+    response.raise_for_status()
+
+    return response.json()
 
 
 def _extract_location(element: dict) -> Location | None:

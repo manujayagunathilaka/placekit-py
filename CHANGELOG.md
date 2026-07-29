@@ -20,10 +20,14 @@ This project follows semantic versioning where possible.
 - Added Overpass response parser for converting response data into `Place` objects.
 - Added parsing support for node coordinates and center coordinates from ways and relations.
 - Added tests for Overpass response parsing behavior.
+- Added Overpass HTTP client helper for sending Overpass API requests.
+- Added default Overpass endpoint and User-Agent constants.
+- Added timeout, endpoint, and User-Agent override support.
+- Added mocked tests for Overpass HTTP behavior without real network calls.
 
 ### Notes
 
-Real OpenStreetMap / Overpass API requests are not implemented yet.
+Real OpenStreetMap / Overpass API requests are not integrated into `OpenStreetMapProvider` yet.
 
 ## [0.1.0] - 2026-07-19
 

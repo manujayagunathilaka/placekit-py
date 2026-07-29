@@ -38,6 +38,10 @@ dev = [
     "ruff>=0.6.0",
 ]
 
+dependencies = [
+    "requests>=2.31.0",
+]
+
 [project.urls]
 Homepage = "https://github.com/manujayagunathilaka/placekit-py"
 Repository = "https://github.com/manujayagunathilaka/placekit-py"
