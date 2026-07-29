@@ -45,6 +45,7 @@ Current features:
 - OpenStreetMap tag mapping for place categories
 - Overpass query builder
 - Overpass response parser
+- Overpass HTTP client helper
 - Custom exceptions for invalid coordinates
 - Automated tests with `pytest`
 - Code quality checks with `ruff`
@@ -447,6 +448,45 @@ The parser supports:
 
 This parser does not make real HTTP requests. It only converts response data into `Place` objects.
 
+## Overpass HTTP Client
+
+`placekit-py` includes a small Overpass HTTP client helper for future OpenStreetMap provider support.
+
+This helper sends an Overpass query to an Overpass API endpoint and returns JSON response data.
+
+```python
+from placekit.providers.overpass import fetch_overpass_data
+
+data = fetch_overpass_data(
+    query="[out:json];node(around:1000,6.9147,79.9729);out;",
+)
+
+print(data)
+```
+
+The helper uses:
+
+- A default Overpass API endpoint
+- A custom User-Agent header
+- Request timeout handling
+- `response.raise_for_status()` for HTTP errors
+- JSON response parsing
+
+You can also override the endpoint, timeout, and User-Agent:
+
+```python
+from placekit.providers.overpass import fetch_overpass_data
+
+data = fetch_overpass_data(
+    query="[out:json];node(around:1000,6.9147,79.9729);out;",
+    endpoint="https://overpass-api.de/api/interpreter",
+    timeout=10,
+    user_agent="my-app/1.0",
+)
+```
+
+> Note: This helper performs an HTTP request. Unit tests for this helper use mocked HTTP responses and do not call the real Overpass API.
+
 ## Client Interface
 
 `placekit-py` provides a `PlaceKitClient` class as the main entry point for provider-based features.
@@ -726,6 +766,29 @@ Returns a list of `Place` objects.
 
 Elements without a name or usable coordinates are skipped.
 
+### `fetch_overpass_data(query, endpoint, timeout, user_agent)`
+
+Sends an Overpass query to an Overpass API endpoint and returns JSON response data.
+
+```python
+from placekit.providers.overpass import fetch_overpass_data
+
+data = fetch_overpass_data(query=query)
+```
+
+Optional values can be used to override the endpoint, timeout, and User-Agent.
+
+```python
+data = fetch_overpass_data(
+    query=query,
+    endpoint="https://overpass-api.de/api/interpreter",
+    timeout=10,
+    user_agent="my-app/1.0",
+)
+```
+
+> Note: This helper performs an HTTP request. Unit tests should mock network calls.
+
 ### `Distance`
 
 Represents a distance value in multiple units.
@@ -768,6 +831,7 @@ from placekit import InvalidCoordinateError
 - [x] Add OSM tag mapping for place categories
 - [x] Add Overpass query builder
 - [x] Add Overpass response parser
+- [x] Add Overpass HTTP client
 - [ ] Implement OpenStreetMap provider with Overpass API
 - [ ] Add Google Places provider
 - [ ] Add CLI support
