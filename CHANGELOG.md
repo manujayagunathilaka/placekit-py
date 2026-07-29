@@ -17,6 +17,9 @@ This project follows semantic versioning where possible.
 - Added Overpass query builder for future OpenStreetMap provider support.
 - Added tests for generated Overpass query strings.
 - Added support for custom Overpass timeout values.
+- Added Overpass response parser for converting response data into `Place` objects.
+- Added parsing support for node coordinates and center coordinates from ways and relations.
+- Added tests for Overpass response parsing behavior.
 
 ### Notes
 

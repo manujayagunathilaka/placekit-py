@@ -44,6 +44,7 @@ Current features:
 - Initial OpenStreetMap provider skeleton
 - OpenStreetMap tag mapping for place categories
 - Overpass query builder
+- Overpass response parser
 - Custom exceptions for invalid coordinates
 - Automated tests with `pytest`
 - Code quality checks with `ruff`
@@ -398,6 +399,54 @@ out center;
 
 This builder does not make real HTTP requests. It only creates the query string that will be used by the future OpenStreetMap provider implementation.
 
+## Overpass Response Parser
+
+`placekit-py` includes an Overpass response parser for future OpenStreetMap provider support.
+
+This helper converts Overpass API JSON response data into `Place` objects.
+
+```python
+from placekit.providers.overpass import parse_overpass_response
+
+data = {
+    "elements": [
+        {
+            "type": "node",
+            "id": 1,
+            "lat": 6.9147,
+            "lon": 79.9729,
+            "tags": {
+                "name": "ABC University",
+                "amenity": "university",
+            },
+        }
+    ]
+}
+
+places = parse_overpass_response(
+    data=data,
+    category="university",
+)
+
+print(places)
+```
+
+Example output:
+
+```text
+[Place(name='ABC University', category='university', location=Location(latitude=6.9147, longitude=79.9729))]
+```
+
+The parser supports:
+
+- `node` elements with `lat` and `lon`
+- `way` elements with `center.lat` and `center.lon`
+- `relation` elements with `center.lat` and `center.lon`
+- Skipping elements without a name
+- Skipping elements without usable coordinates
+
+This parser does not make real HTTP requests. It only converts response data into `Place` objects.
+
 ## Client Interface
 
 `placekit-py` provides a `PlaceKitClient` class as the main entry point for provider-based features.
@@ -660,6 +709,23 @@ The query includes `node`, `way`, and `relation` searches and outputs center coo
 
 > Note: This helper only builds the query string. It does not send HTTP requests.
 
+### `parse_overpass_response(data, category)`
+
+Parses Overpass API response data into `Place` objects.
+
+```python
+from placekit.providers.overpass import parse_overpass_response
+
+places = parse_overpass_response(
+    data=response_data,
+    category="university",
+)
+```
+
+Returns a list of `Place` objects.
+
+Elements without a name or usable coordinates are skipped.
+
 ### `Distance`
 
 Represents a distance value in multiple units.
@@ -701,6 +767,7 @@ from placekit import InvalidCoordinateError
 - [x] Add OpenStreetMap provider skeleton
 - [x] Add OSM tag mapping for place categories
 - [x] Add Overpass query builder
+- [x] Add Overpass response parser
 - [ ] Implement OpenStreetMap provider with Overpass API
 - [ ] Add Google Places provider
 - [ ] Add CLI support
