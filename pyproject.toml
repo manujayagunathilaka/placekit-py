@@ -31,15 +31,14 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
+dependencies = [
+    "requests>=2.31.0",
+]
 
 [project.optional-dependencies]
 dev = [
     "pytest>=8.0",
     "ruff>=0.6.0",
-]
-
-dependencies = [
-    "requests>=2.31.0",
 ]
 
 [project.urls]
