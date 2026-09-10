@@ -24,10 +24,12 @@ This project follows semantic versioning where possible.
 - Added default Overpass endpoint and User-Agent constants.
 - Added timeout, endpoint, and User-Agent override support.
 - Added mocked tests for Overpass HTTP behavior without real network calls.
+- Integrated `OpenStreetMapProvider.nearby()` with the OSM tag mapper, Overpass query builder, Overpass HTTP client, and Overpass response parser.
+- Added tests for OpenStreetMap provider integration, unsupported categories, limit handling, and zero-limit behavior.
 
 ### Notes
 
-Real OpenStreetMap / Overpass API requests are not integrated into `OpenStreetMapProvider` yet.
+`OpenStreetMapProvider` now performs real Overpass API requests for supported place categories. Unit tests mock the network layer and do not call the real Overpass API.
 
 ## [0.1.0] - 2026-07-19
 
