@@ -2,6 +2,10 @@
 
 from unittest.mock import Mock, patch
 
+import pytest
+import requests
+
+from placekit import OverpassRequestError, OverpassResponseError
 from placekit.providers.overpass import (
     DEFAULT_OVERPASS_ENDPOINT,
     DEFAULT_USER_AGENT,
@@ -25,7 +29,8 @@ def test_fetch_overpass_data_sends_query_to_default_endpoint():
     mock_response.json.return_value = {"elements": []}
 
     with patch(
-        "placekit.providers.overpass.requests.post", return_value=mock_response
+        "placekit.providers.overpass.requests.post",
+        return_value=mock_response,
     ) as mock_post:
         fetch_overpass_data(query="sample query")
 
@@ -42,7 +47,8 @@ def test_fetch_overpass_data_supports_custom_endpoint_timeout_and_user_agent():
     mock_response.json.return_value = {"elements": []}
 
     with patch(
-        "placekit.providers.overpass.requests.post", return_value=mock_response
+        "placekit.providers.overpass.requests.post",
+        return_value=mock_response,
     ) as mock_post:
         fetch_overpass_data(
             query="sample query",
@@ -59,14 +65,37 @@ def test_fetch_overpass_data_supports_custom_endpoint_timeout_and_user_agent():
     )
 
 
-def test_fetch_overpass_data_raises_for_http_errors():
+def test_fetch_overpass_data_raises_custom_error_for_http_errors():
     mock_response = Mock()
-    mock_response.raise_for_status.side_effect = RuntimeError("HTTP error")
+    mock_response.raise_for_status.side_effect = requests.HTTPError("HTTP error")
 
     with patch("placekit.providers.overpass.requests.post", return_value=mock_response):
-        try:
+        with pytest.raises(
+            OverpassRequestError,
+            match="Failed to fetch data from Overpass API.",
+        ):
             fetch_overpass_data(query="sample query")
-        except RuntimeError as error:
-            assert str(error) == "HTTP error"
-        else:
-            raise AssertionError("Expected RuntimeError to be raised")
+
+
+def test_fetch_overpass_data_raises_custom_error_for_request_errors():
+    with patch(
+        "placekit.providers.overpass.requests.post",
+        side_effect=requests.Timeout("Request timed out"),
+    ):
+        with pytest.raises(
+            OverpassRequestError,
+            match="Failed to fetch data from Overpass API.",
+        ):
+            fetch_overpass_data(query="sample query")
+
+
+def test_fetch_overpass_data_raises_custom_error_for_invalid_json():
+    mock_response = Mock()
+    mock_response.json.side_effect = ValueError("Invalid JSON")
+
+    with patch("placekit.providers.overpass.requests.post", return_value=mock_response):
+        with pytest.raises(
+            OverpassResponseError,
+            match="Failed to parse Overpass API response.",
+        ):
+            fetch_overpass_data(query="sample query")

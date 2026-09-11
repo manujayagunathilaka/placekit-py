@@ -2,6 +2,7 @@
 
 import requests
 
+from placekit.exceptions import OverpassRequestError, OverpassResponseError
 from placekit.models import Location, Place
 
 DEFAULT_OVERPASS_ENDPOINT = "https://overpass-api.de/api/interpreter"
@@ -64,16 +65,21 @@ def fetch_overpass_data(
     user_agent: str = DEFAULT_USER_AGENT,
 ) -> dict:
     """Fetch data from the Overpass API."""
-    response = requests.post(
-        endpoint,
-        data={"data": query},
-        headers={"User-Agent": user_agent},
-        timeout=timeout,
-    )
+    try:
+        response = requests.post(
+            endpoint,
+            data={"data": query},
+            headers={"User-Agent": user_agent},
+            timeout=timeout,
+        )
+        response.raise_for_status()
+    except requests.RequestException as error:
+        raise OverpassRequestError("Failed to fetch data from Overpass API.") from error
 
-    response.raise_for_status()
-
-    return response.json()
+    try:
+        return response.json()
+    except ValueError as error:
+        raise OverpassResponseError("Failed to parse Overpass API response.") from error
 
 
 def _extract_location(element: dict) -> Location | None:

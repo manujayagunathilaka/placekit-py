@@ -3,7 +3,14 @@
 from placekit.categories import PlaceCategory
 from placekit.client import PlaceKitClient
 from placekit.distance import distance_between
-from placekit.exceptions import InvalidCoordinateError, PlaceKitError
+from placekit.exceptions import (
+    InvalidCoordinateError,
+    OverpassRequestError,
+    OverpassResponseError,
+    PlaceKitError,
+    ProviderError,
+    UnsupportedCategoryError,
+)
 from placekit.models import Distance, Location, Place
 
 __version__ = "0.2.0"
@@ -17,4 +24,8 @@ __all__ = [
     "PlaceKitError",
     "PlaceKitClient",
     "PlaceCategory",
+    "ProviderError",
+    "OverpassRequestError",
+    "OverpassResponseError",
+    "UnsupportedCategoryError",
 ]
