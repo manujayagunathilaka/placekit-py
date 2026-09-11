@@ -1,6 +1,8 @@
 """Tests for the placekit command-line interface."""
 
 from placekit.cli import main
+from unittest.mock import patch
+from placekit import OverpassRequestError
 
 
 def test_cli_distance_command_outputs_distance(capsys, monkeypatch):
@@ -24,3 +26,31 @@ def test_cli_distance_command_outputs_distance(capsys, monkeypatch):
     assert "- Kilometers: 12.407 km" in output
     assert "- Meters: 12406.83 m" in output
     assert "- Miles: 7.709 mi" in output
+
+
+def test_cli_nearby_command_handles_overpass_request_error(capsys, monkeypatch):
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "placekit",
+            "nearby",
+            "--lat",
+            "6.9147",
+            "--lon",
+            "79.9729",
+            "--category",
+            "university",
+            "--radius",
+            "2",
+        ],
+    )
+
+    with patch(
+        "placekit.cli.PlaceKitClient.nearby",
+        side_effect=OverpassRequestError("Failed to fetch data from Overpass API."),
+    ):
+        main()
+
+    output = capsys.readouterr().out
+
+    assert "Error: Failed to fetch data from Overpass API." in output
