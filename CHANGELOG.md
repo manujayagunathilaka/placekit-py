@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 This project follows semantic versioning where possible.
 
+## [0.3.0] - Unreleased
+
+### Added
+
+- Added command-line interface entry point.
+- Added `placekit distance` command for calculating distance between two coordinates.
+- Added CLI tests for distance command output.
+
+### Documentation
+
+- Added README documentation for CLI usage.
+- Updated project roadmap for CLI support.
+
 ## [0.2.1] - 2026-09-11
 
 ### Added

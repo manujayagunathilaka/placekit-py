@@ -46,6 +46,9 @@ Homepage = "https://github.com/manujayagunathilaka/placekit-py"
 Repository = "https://github.com/manujayagunathilaka/placekit-py"
 Issues = "https://github.com/manujayagunathilaka/placekit-py/issues"
 
+[project.scripts]
+placekit = "placekit.cli:main"
+
 [tool.setuptools.packages.find]
 include = ["placekit*"]
 
