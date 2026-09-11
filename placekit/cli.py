@@ -4,9 +4,9 @@ import argparse
 
 from placekit.client import PlaceKitClient
 from placekit.distance import distance_between
+from placekit.exceptions import OverpassRequestError, OverpassResponseError
 from placekit.models import Location
 from placekit.providers import OpenStreetMapProvider
-from placekit.exceptions import OverpassRequestError, OverpassResponseError
 
 
 def main() -> None:

@@ -1,8 +1,9 @@
 """Tests for the placekit command-line interface."""
 
-from placekit.cli import main
 from unittest.mock import patch
+
 from placekit import OverpassRequestError
+from placekit.cli import main
 
 
 def test_cli_distance_command_outputs_distance(capsys, monkeypatch):
