@@ -10,7 +10,7 @@ A Python toolkit for distance calculations, nearby places, and geolocation provi
 
 `placekit-py` is a lightweight Python package for building location-based applications.
 
-It provides reusable utilities and models for working with geographic locations, places, categories, distance calculations, and provider-based nearby place search.
+It provides reusable utilities and models for working with geographic locations, places, categories, distance calculations, provider-based nearby place search, and command-line usage.
 
 ## Why placekit-py?
 
@@ -20,7 +20,8 @@ Many location-based applications need the same basic features:
 - Representing locations and places in a clean structure
 - Filtering nearby places by category and radius
 - Sorting nearby places by distance
-- Supporting different place data providers in the future
+- Supporting different place data providers
+- Running useful location utilities from the terminal
 
 Developers often rebuild these utilities repeatedly for projects such as real estate platforms, travel applications, delivery tools, campus location systems, local discovery apps, and emergency service tools.
 
@@ -48,6 +49,7 @@ Current features:
 - Overpass HTTP client helper
 - Custom exceptions for invalid coordinates
 - Custom provider and Overpass exceptions
+- CLI distance command
 - Automated tests with `pytest`
 - Code quality checks with `ruff`
 - GitHub Actions CI
@@ -55,7 +57,7 @@ Current features:
 Planned features:
 
 - Google Places provider
-- CLI support
+- Nearby search CLI command
 - PyPI release
 
 ## Installation
@@ -68,6 +70,12 @@ Install from source for local development:
 git clone https://github.com/manujayagunathilaka/placekit-py.git
 cd placekit-py
 pip install -e .
+```
+
+For development work, install with development dependencies:
+
+```bash
+pip install -e ".[dev]"
 ```
 
 ## Development Setup
@@ -123,6 +131,25 @@ Recommended checks before opening a pull request:
 ruff check .
 ruff format --check .
 pytest
+```
+
+## CLI Usage
+
+`placekit-py` includes a basic command-line interface.
+
+Calculate the distance between two coordinates:
+
+```bash
+placekit distance 6.9147 79.9729 6.9271 79.8612
+```
+
+Example output:
+
+```text
+Distance:
+- Kilometers: 12.407 km
+- Meters: 12406.83 m
+- Miles: 7.709 mi
 ```
 
 ## Quick Example
@@ -839,6 +866,14 @@ Raises:
 - `OverpassRequestError` for request or HTTP failures
 - `OverpassResponseError` for JSON parsing failures
 
+### CLI `placekit distance`
+
+Calculates distance between two coordinates from the terminal.
+
+```bash
+placekit distance 6.9147 79.9729 6.9271 79.8612
+```
+
 ### `Distance`
 
 Represents a distance value in multiple units.
@@ -924,8 +959,9 @@ from placekit import UnsupportedCategoryError
 - [x] Add Overpass HTTP client
 - [x] Implement OpenStreetMap provider with Overpass API
 - [x] Add custom provider exceptions
+- [x] Add CLI support
+- [ ] Add nearby search CLI command
 - [ ] Add Google Places provider
-- [ ] Add CLI support
 - [ ] Publish to PyPI
 
 ## Project Status
@@ -943,7 +979,9 @@ The `v0.1.0` release focuses on the core foundation:
 
 The `v0.2.0` release adds OpenStreetMap provider support using the Overpass API.
 
-The next patch release focuses on provider error handling improvements.
+The `v0.2.1` release improves provider error handling.
+
+The next feature release focuses on CLI support.
 
 External providers such as Google Places are planned for future releases.
 
