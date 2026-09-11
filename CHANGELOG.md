@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 
 This project follows semantic versioning where possible.
 
+## [0.2.1] - Unreleased
+
+### Added
+
+- Added provider-related custom exceptions.
+- Added `ProviderError` as the base exception for provider-related errors.
+- Added `OverpassRequestError` for Overpass request and HTTP failures.
+- Added `OverpassResponseError` for Overpass response parsing failures.
+- Added `UnsupportedCategoryError` for unsupported provider categories.
+- Added tests for provider exception inheritance.
+
+### Changed
+
+- Updated Overpass HTTP client error handling to raise `placekit-py` custom exceptions instead of exposing raw request or parsing errors directly.
+
+### Documentation
+
+- Added README documentation for provider and Overpass error handling.
+
 ## [0.2.0] - 2026-09-10
 
 ### Added
@@ -14,7 +33,7 @@ This project follows semantic versioning where possible.
 - Added OpenStreetMap tag mappings for existing `PlaceCategory` values.
 - Added `get_osm_tags()` helper for retrieving OSM tags by category.
 - Added tests for supported and unsupported OSM tag mappings.
-- Added Overpass query builder for future OpenStreetMap provider support.
+- Added Overpass query builder for OpenStreetMap provider support.
 - Added tests for generated Overpass query strings.
 - Added support for custom Overpass timeout values.
 - Added Overpass response parser for converting response data into `Place` objects.
@@ -24,12 +43,23 @@ This project follows semantic versioning where possible.
 - Added default Overpass endpoint and User-Agent constants.
 - Added timeout, endpoint, and User-Agent override support.
 - Added mocked tests for Overpass HTTP behavior without real network calls.
-- Integrated `OpenStreetMapProvider.nearby()` with the OSM tag mapper, Overpass query builder, Overpass HTTP client, and Overpass response parser.
-- Added tests for OpenStreetMap provider integration, unsupported categories, limit handling, and zero-limit behavior.
+- Integrated `OpenStreetMapProvider.nearby()` with Overpass helpers.
+- Added radius conversion from kilometers to meters.
+- Added support for category-based OpenStreetMap nearby search using mapped `PlaceCategory` values.
+- Added mocked tests for OpenStreetMap provider integration behavior.
+- Added `requests` as a runtime dependency.
+
+### Documentation
+
+- Updated README documentation for OpenStreetMap provider usage.
+- Updated README documentation for Overpass query building, response parsing, and HTTP client helpers.
+- Updated project roadmap for OpenStreetMap provider support.
 
 ### Notes
 
-`OpenStreetMapProvider` now performs real Overpass API requests for supported place categories. Unit tests mock the network layer and do not call the real Overpass API.
+`OpenStreetMapProvider` now supports nearby place search for mapped categories using the Overpass API.
+
+Unit tests use mocked HTTP responses and do not call the real Overpass API.
 
 ## [0.1.0] - 2026-07-19
 
