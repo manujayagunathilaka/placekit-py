@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 
 This project follows semantic versioning where possible.
 
+## [0.4.0] - 2026-09-11
+
+### Added
+
+- Added `placekit nearby` CLI command for searching nearby places from the terminal.
+- Added `--lat` and `--lon` options for nearby search coordinates.
+- Added `--category` option for selecting the place category.
+- Added `--radius` option for selecting the search radius in kilometers.
+- Added optional `--limit` option for limiting nearby search results.
+- Connected the nearby CLI command to `PlaceKitClient` and `OpenStreetMapProvider`.
+- Added readable terminal output for nearby places.
+- Added empty result handling for nearby CLI searches.
+- Added clean Overpass error handling for CLI users.
+- Added CLI tests with mocked provider behavior.
+
+### Documentation
+
+- Updated README documentation for nearby CLI usage.
+- Updated project roadmap for nearby search CLI support.
+
 ## [0.3.0] - 2026-09-11
 
 ### Added

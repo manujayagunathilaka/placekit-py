@@ -50,6 +50,7 @@ Current features:
 - Custom exceptions for invalid coordinates
 - Custom provider and Overpass exceptions
 - CLI distance command
+- CLI nearby search command
 - Automated tests with `pytest`
 - Code quality checks with `ruff`
 - GitHub Actions CI
@@ -57,7 +58,6 @@ Current features:
 Planned features:
 
 - Google Places provider
-- Nearby search CLI command
 - PyPI release
 
 ## Installation
@@ -151,6 +151,23 @@ Distance:
 - Meters: 12406.83 m
 - Miles: 7.709 mi
 ```
+
+Search nearby places using OpenStreetMap:
+
+```bash
+placekit nearby --lat 6.9147 --lon 79.9729 --category university --radius 2 --limit 3
+```
+
+Example output:
+
+```text
+Nearby places:
+1. South Asian Institute of Technology (SAITM) - university
+2. Sri Lanka Institute of Information Technology (SLIIT) - university
+3. Faculty of Computing - university
+```
+
+> Note: The nearby command uses the Overpass API. Results depend on API availability and OpenStreetMap data coverage.
 
 ## Quick Example
 
@@ -874,6 +891,14 @@ Calculates distance between two coordinates from the terminal.
 placekit distance 6.9147 79.9729 6.9271 79.8612
 ```
 
+### CLI `placekit nearby`
+
+Searches nearby places from the terminal using OpenStreetMap.
+
+```bash
+placekit nearby --lat 6.9147 --lon 79.9729 --category university --radius 2 --limit 3
+```
+
 ### `Distance`
 
 Represents a distance value in multiple units.
@@ -960,7 +985,7 @@ from placekit import UnsupportedCategoryError
 - [x] Implement OpenStreetMap provider with Overpass API
 - [x] Add custom provider exceptions
 - [x] Add CLI support
-- [ ] Add nearby search CLI command
+- [x] Add nearby search CLI command
 - [ ] Add Google Places provider
 - [ ] Publish to PyPI
 
@@ -981,7 +1006,9 @@ The `v0.2.0` release adds OpenStreetMap provider support using the Overpass API.
 
 The `v0.2.1` release improves provider error handling.
 
-The next feature release focuses on CLI support.
+The `v0.3.0` release adds the CLI distance command.
+
+The `v0.4.0` release adds the CLI nearby search command.
 
 External providers such as Google Places are planned for future releases.
 
