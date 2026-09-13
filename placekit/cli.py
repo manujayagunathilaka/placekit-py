@@ -1,6 +1,7 @@
 """Command-line interface for placekit-py."""
 
 import argparse
+import json
 
 from placekit.client import PlaceKitClient
 from placekit.distance import distance_between
@@ -26,6 +27,12 @@ def main() -> None:
     distance_parser.add_argument("origin_lon", type=float)
     distance_parser.add_argument("destination_lat", type=float)
     distance_parser.add_argument("destination_lon", type=float)
+    distance_parser.add_argument(
+        "--format",
+        choices=["text", "json"],
+        default="text",
+        help="Output format.",
+    )
 
     nearby_parser = subparsers.add_parser(
         "nearby",
@@ -36,6 +43,12 @@ def main() -> None:
     nearby_parser.add_argument("--category", required=True)
     nearby_parser.add_argument("--radius", type=float, required=True)
     nearby_parser.add_argument("--limit", type=int, default=10)
+    nearby_parser.add_argument(
+        "--format",
+        choices=["text", "json"],
+        default="text",
+        help="Output format.",
+    )
 
     args = parser.parse_args()
 
@@ -44,6 +57,19 @@ def main() -> None:
             (args.origin_lat, args.origin_lon),
             (args.destination_lat, args.destination_lon),
         )
+
+        if args.format == "json":
+            print(
+                json.dumps(
+                    {
+                        "kilometers": distance.km,
+                        "meters": distance.meters,
+                        "miles": distance.miles,
+                    },
+                    indent=2,
+                )
+            )
+            return
 
         print("Distance:")
         print(f"- Kilometers: {distance.km} km")
@@ -65,6 +91,23 @@ def main() -> None:
             return
         except OverpassResponseError as error:
             print(f"Error: {error}")
+            return
+
+        if args.format == "json":
+            print(
+                json.dumps(
+                    [
+                        {
+                            "name": place.name,
+                            "category": place.category,
+                            "latitude": place.location.latitude,
+                            "longitude": place.location.longitude,
+                        }
+                        for place in places
+                    ],
+                    indent=2,
+                )
+            )
             return
 
         if not places:

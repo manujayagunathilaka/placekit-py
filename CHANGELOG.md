@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 
 This project follows semantic versioning where possible.
 
+## [0.5.0] - Unreleased
+
+### Added
+
+- Added JSON output support for CLI commands.
+- Added `--format` option for `placekit distance`.
+- Added `--format` option for `placekit nearby`.
+- Added JSON output for distance results.
+- Added JSON output for nearby place results.
+- Added empty nearby result JSON output.
+- Added CLI tests for JSON output behavior.
+
+### Documentation
+
+- Updated README documentation for CLI JSON output usage.
+
 ## [0.4.0] - 2026-09-11
 
 ### Added

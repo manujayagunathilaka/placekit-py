@@ -51,6 +51,7 @@ Current features:
 - Custom provider and Overpass exceptions
 - CLI distance command
 - CLI nearby search command
+- JSON output support for CLI commands
 - Automated tests with `pytest`
 - Code quality checks with `ruff`
 - GitHub Actions CI
@@ -152,6 +153,22 @@ Distance:
 - Miles: 7.709 mi
 ```
 
+JSON output is also supported:
+
+```bash
+placekit distance 6.9147 79.9729 6.9271 79.8612 --format json
+```
+
+Example output:
+
+```json
+{
+  "kilometers": 12.407,
+  "meters": 12406.83,
+  "miles": 7.709
+}
+```
+
 Search nearby places using OpenStreetMap:
 
 ```bash
@@ -165,6 +182,25 @@ Nearby places:
 1. South Asian Institute of Technology (SAITM) - university
 2. Sri Lanka Institute of Information Technology (SLIIT) - university
 3. Faculty of Computing - university
+```
+
+Nearby search also supports JSON output:
+
+```bash
+placekit nearby --lat 6.9147 --lon 79.9729 --category university --radius 2 --limit 3 --format json
+```
+
+Example output:
+
+```json
+[
+  {
+    "name": "South Asian Institute of Technology (SAITM)",
+    "category": "university",
+    "latitude": 6.9147,
+    "longitude": 79.9729
+  }
+]
 ```
 
 > Note: The nearby command uses the Overpass API. Results depend on API availability and OpenStreetMap data coverage.
@@ -891,12 +927,24 @@ Calculates distance between two coordinates from the terminal.
 placekit distance 6.9147 79.9729 6.9271 79.8612
 ```
 
+JSON output:
+
+```bash
+placekit distance 6.9147 79.9729 6.9271 79.8612 --format json
+```
+
 ### CLI `placekit nearby`
 
 Searches nearby places from the terminal using OpenStreetMap.
 
 ```bash
 placekit nearby --lat 6.9147 --lon 79.9729 --category university --radius 2 --limit 3
+```
+
+JSON output:
+
+```bash
+placekit nearby --lat 6.9147 --lon 79.9729 --category university --radius 2 --limit 3 --format json
 ```
 
 ### `Distance`
@@ -986,6 +1034,7 @@ from placekit import UnsupportedCategoryError
 - [x] Add custom provider exceptions
 - [x] Add CLI support
 - [x] Add nearby search CLI command
+- [x] Add JSON output support for CLI commands
 - [ ] Add Google Places provider
 - [ ] Publish to PyPI
 
@@ -1009,6 +1058,8 @@ The `v0.2.1` release improves provider error handling.
 The `v0.3.0` release adds the CLI distance command.
 
 The `v0.4.0` release adds the CLI nearby search command.
+
+The next feature release focuses on JSON output support for CLI commands.
 
 External providers such as Google Places are planned for future releases.
 
