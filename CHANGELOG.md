@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 This project follows semantic versioning where possible.
 
+## [0.7.0] - Unreleased
+
+### Added
+
+- Added Google Places type mapping helper.
+- Added `get_google_place_type()` for converting supported `PlaceCategory` values into Google Places API place types.
+- Added tests for supported Google Places type mappings.
+- Added tests for unsupported Google Places categories.
+
+### Documentation
+
+- Updated README documentation for Google Places type mapping.
+
 ## [0.6.0] - 2026-09-13
 
 ### Added
