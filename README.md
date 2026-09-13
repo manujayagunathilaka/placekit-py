@@ -48,6 +48,7 @@ Current features:
 - Overpass query builder
 - Overpass response parser
 - Overpass HTTP client helper
+- Google Places type mapping helper
 - Custom exceptions for invalid coordinates
 - Custom provider and Overpass exceptions
 - CLI distance command
@@ -500,6 +501,31 @@ None
 
 Unsupported or custom categories return `None` because they may not have a known OpenStreetMap tag mapping yet.
 
+## Google Places Type Mapping
+
+`placekit-py` includes a Google Places type mapping helper for future Google Places provider support.
+
+This helper converts supported `PlaceCategory` values into Google Places API place types.
+
+```python
+from placekit import PlaceCategory
+from placekit.providers.google_types import get_google_place_type
+
+print(get_google_place_type(PlaceCategory.RESTAURANT))
+print(get_google_place_type(PlaceCategory.HOSPITAL))
+print(get_google_place_type("gym"))
+```
+
+Example output:
+
+```text
+restaurant
+hospital
+None
+```
+
+Unsupported or custom categories return `None` because they may not have a known Google Places type mapping yet.
+
 ## Overpass Query Builder
 
 `placekit-py` includes an Overpass query builder for OpenStreetMap provider support.
@@ -886,6 +912,25 @@ Returns:
 
 Unsupported categories return `None`.
 
+### `get_google_place_type(category)`
+
+Returns the Google Places API place type for a supported place category.
+
+```python
+from placekit import PlaceCategory
+from placekit.providers.google_types import get_google_place_type
+
+place_type = get_google_place_type(PlaceCategory.RESTAURANT)
+```
+
+Returns:
+
+```python
+"restaurant"
+```
+
+Unsupported categories return `None`.
+
 ### `build_overpass_query(...)`
 
 Builds an Overpass API query string for nearby OpenStreetMap features.
@@ -1065,6 +1110,7 @@ from placekit import UnsupportedCategoryError
 - [x] Add nearby search CLI command
 - [x] Add JSON output support for CLI commands
 - [x] Add OpenStreetMapProvider configuration options
+- [x] Add Google Places type mapping
 - [ ] Add Google Places provider
 - [ ] Publish to PyPI
 
@@ -1091,7 +1137,9 @@ The `v0.4.0` release adds the CLI nearby search command.
 
 The `v0.5.0` release adds JSON output support for CLI commands.
 
-The next feature release focuses on OpenStreetMap provider configuration.
+The `v0.6.0` release adds OpenStreetMap provider configuration options.
+
+The next feature release focuses on Google Places provider support.
 
 External providers such as Google Places are planned for future releases.
 
