@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "placekit-py"
-version = "0.5.0"
+version = "0.6.0"
 description = "A Python toolkit for distance calculations, nearby places, and geolocation provider integrations."
 readme = "README.md"
 requires-python = ">=3.10"
