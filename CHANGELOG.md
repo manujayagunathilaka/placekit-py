@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 
 This project follows semantic versioning where possible.
 
+## [0.6.0] - Unreleased
+
+### Added
+
+- Added configuration options for `OpenStreetMapProvider`.
+- Added support for custom Overpass endpoint configuration.
+- Added support for custom request timeout configuration.
+- Added support for custom User-Agent configuration.
+- Added tests for default and custom OpenStreetMap provider configuration.
+
+### Changed
+
+- Updated `OpenStreetMapProvider.nearby()` to pass provider configuration values to the Overpass HTTP helper.
+
+### Documentation
+
+- Updated README documentation for OpenStreetMap provider configuration.
+
 ## [0.5.0] - 2026-09-13
 
 ### Added

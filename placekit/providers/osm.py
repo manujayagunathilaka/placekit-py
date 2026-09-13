@@ -4,6 +4,8 @@ from placekit.models import Location, Place
 from placekit.providers.base import BasePlaceProvider
 from placekit.providers.osm_tags import get_osm_tags
 from placekit.providers.overpass import (
+    DEFAULT_OVERPASS_ENDPOINT,
+    DEFAULT_USER_AGENT,
     build_overpass_query,
     fetch_overpass_data,
     parse_overpass_response,
@@ -13,6 +15,17 @@ from placekit.providers.overpass import (
 class OpenStreetMapProvider(BasePlaceProvider):
     """Place provider for OpenStreetMap-based nearby search."""
 
+    def __init__(
+        self,
+        endpoint: str = DEFAULT_OVERPASS_ENDPOINT,
+        timeout: int = 25,
+        user_agent: str = DEFAULT_USER_AGENT,
+    ) -> None:
+        """Create an OpenStreetMap provider."""
+        self.endpoint = endpoint
+        self.timeout = timeout
+        self.user_agent = user_agent
+
     def nearby(
         self,
         location: Location,
@@ -21,16 +34,10 @@ class OpenStreetMapProvider(BasePlaceProvider):
         limit: int = 10,
     ) -> list[Place]:
         """Find nearby places using OpenStreetMap data."""
-        if limit <= 0:
-            return []
-
         places = []
         radius_meters = int(radius_km * 1000)
 
         for category in categories:
-            if len(places) >= limit:
-                break
-
             tags = get_osm_tags(category)
 
             if tags is None:
@@ -43,7 +50,12 @@ class OpenStreetMapProvider(BasePlaceProvider):
                 tags=tags,
             )
 
-            data = fetch_overpass_data(query=query)
+            data = fetch_overpass_data(
+                query=query,
+                endpoint=self.endpoint,
+                timeout=self.timeout,
+                user_agent=self.user_agent,
+            )
 
             parsed_places = parse_overpass_response(
                 data=data,

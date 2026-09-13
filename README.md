@@ -43,6 +43,7 @@ Current features:
 - Client nearby delegation
 - In-memory place provider
 - OpenStreetMap provider with Overpass API support
+- OpenStreetMap provider configuration options
 - OpenStreetMap tag mapping for place categories
 - Overpass query builder
 - Overpass response parser
@@ -444,6 +445,24 @@ for place in places:
     print(place.name)
 ```
 
+You can also customize the Overpass endpoint, timeout, and User-Agent:
+
+```python
+from placekit.providers import OpenStreetMapProvider
+
+provider = OpenStreetMapProvider(
+    endpoint="https://overpass-api.de/api/interpreter",
+    timeout=25,
+    user_agent="my-app/1.0",
+)
+```
+
+Default usage still works:
+
+```python
+provider = OpenStreetMapProvider()
+```
+
 The OpenStreetMap provider uses:
 
 - OpenStreetMap tag mappings
@@ -838,6 +857,16 @@ from placekit.providers import OpenStreetMapProvider
 provider = OpenStreetMapProvider()
 ```
 
+Custom configuration:
+
+```python
+provider = OpenStreetMapProvider(
+    endpoint="https://overpass-api.de/api/interpreter",
+    timeout=25,
+    user_agent="my-app/1.0",
+)
+```
+
 ### `get_osm_tags(category)`
 
 Returns OpenStreetMap tags for a supported place category.
@@ -1035,6 +1064,7 @@ from placekit import UnsupportedCategoryError
 - [x] Add CLI support
 - [x] Add nearby search CLI command
 - [x] Add JSON output support for CLI commands
+- [x] Add OpenStreetMapProvider configuration options
 - [ ] Add Google Places provider
 - [ ] Publish to PyPI
 
@@ -1059,7 +1089,9 @@ The `v0.3.0` release adds the CLI distance command.
 
 The `v0.4.0` release adds the CLI nearby search command.
 
-The next feature release focuses on JSON output support for CLI commands.
+The `v0.5.0` release adds JSON output support for CLI commands.
+
+The next feature release focuses on OpenStreetMap provider configuration.
 
 External providers such as Google Places are planned for future releases.
 
