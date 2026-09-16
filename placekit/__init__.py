@@ -13,7 +13,7 @@ from placekit.exceptions import (
 )
 from placekit.models import Distance, Location, Place
 
-__version__ = "0.7.0"
+__version__ = "0.8.0"
 
 __all__ = [
     "Distance",
