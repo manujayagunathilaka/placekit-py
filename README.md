@@ -50,6 +50,7 @@ Current features:
 - Overpass HTTP client helper
 - Google Places type mapping helper
 - Google Places response parser
+- Google Places HTTP client helper
 - Custom exceptions for invalid coordinates
 - Custom provider and Overpass exceptions
 - CLI distance command
@@ -573,6 +574,44 @@ The parser supports:
 
 This parser does not make real HTTP requests. It only converts response data into `Place` objects.
 
+## Google Places HTTP Client
+
+`placekit-py` includes a Google Places HTTP client helper for future Google Places provider support.
+
+This helper sends nearby search requests to the Google Places API and returns JSON response data.
+
+```python
+from placekit.providers.google_places import fetch_google_places_data
+
+data = fetch_google_places_data(
+    api_key="your-api-key",
+    latitude=6.9147,
+    longitude=79.9729,
+    radius_meters=2000,
+    place_type="restaurant",
+)
+
+print(data)
+```
+
+You can also override the endpoint and timeout:
+
+```python
+from placekit.providers.google_places import fetch_google_places_data
+
+data = fetch_google_places_data(
+    api_key="your-api-key",
+    latitude=6.9147,
+    longitude=79.9729,
+    radius_meters=2000,
+    place_type="restaurant",
+    endpoint="https://maps.googleapis.com/maps/api/place/nearbysearch/json",
+    timeout=10,
+)
+```
+
+> Note: This helper performs an HTTP request. Unit tests for this helper use mocked HTTP responses and do not call the real Google Places API.
+
 ## Overpass Query Builder
 
 `placekit-py` includes an Overpass query builder for OpenStreetMap provider support.
@@ -995,6 +1034,41 @@ Returns a list of `Place` objects.
 
 Results without a name or usable coordinates are skipped.
 
+### `fetch_google_places_data(...)`
+
+Sends a nearby search request to the Google Places API and returns JSON response data.
+
+```python
+from placekit.providers.google_places import fetch_google_places_data
+
+data = fetch_google_places_data(
+    api_key="your-api-key",
+    latitude=6.9147,
+    longitude=79.9729,
+    radius_meters=2000,
+    place_type="restaurant",
+)
+```
+
+Optional values can be used to override the endpoint and timeout.
+
+```python
+data = fetch_google_places_data(
+    api_key="your-api-key",
+    latitude=6.9147,
+    longitude=79.9729,
+    radius_meters=2000,
+    place_type="restaurant",
+    endpoint="https://maps.googleapis.com/maps/api/place/nearbysearch/json",
+    timeout=10,
+)
+```
+
+Raises:
+
+- `OverpassRequestError` for request or HTTP failures
+- `OverpassResponseError` for JSON parsing failures
+
 ### `build_overpass_query(...)`
 
 Builds an Overpass API query string for nearby OpenStreetMap features.
@@ -1121,7 +1195,7 @@ from placekit import ProviderError
 
 ### `OverpassRequestError`
 
-Raised when an Overpass API request fails.
+Raised when a provider request fails.
 
 ```python
 from placekit import OverpassRequestError
@@ -1129,7 +1203,7 @@ from placekit import OverpassRequestError
 
 ### `OverpassResponseError`
 
-Raised when an Overpass API response cannot be parsed or used.
+Raised when a provider response cannot be parsed or used.
 
 ```python
 from placekit import OverpassResponseError
@@ -1176,7 +1250,7 @@ from placekit import UnsupportedCategoryError
 - [x] Add OpenStreetMapProvider configuration options
 - [x] Add Google Places type mapping
 - [x] Add Google Places response parser
-- [ ] Add Google Places HTTP client helper
+- [x] Add Google Places HTTP client helper
 - [ ] Add Google Places provider
 - [ ] Publish to PyPI
 
@@ -1207,7 +1281,9 @@ The `v0.6.0` release adds OpenStreetMap provider configuration options.
 
 The `v0.7.0` release adds Google Places type mapping support.
 
-The next feature release focuses on Google Places response parsing.
+The `v0.8.0` release adds Google Places response parsing support.
+
+The next feature release focuses on Google Places HTTP client support.
 
 Google Places provider implementation is planned for a future release.
 

@@ -4,6 +4,27 @@ All notable changes to this project will be documented in this file.
 
 This project follows semantic versioning where possible.
 
+## [0.9.0] - Unreleased
+
+### Added
+
+- Added Google Places HTTP client helper.
+- Added `fetch_google_places_data()` for sending nearby search requests to the Google Places API.
+- Added default Google Places API endpoint constant.
+- Added default Google Places request timeout constant.
+- Added support for custom endpoint and timeout values.
+- Added Google Places nearby search request parameters.
+- Added mocked tests for Google Places HTTP behavior.
+
+### Changed
+
+- Added custom error handling for Google Places request and response failures.
+
+### Documentation
+
+- Updated README documentation for Google Places HTTP client helper.
+- Updated project roadmap for Google Places HTTP client helper support.
+
 ## [0.8.0] - 2026-09-16
 
 ### Added
