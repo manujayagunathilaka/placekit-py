@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 This project follows semantic versioning where possible.
 
+## [0.8.0] - Unreleased
+
+### Added
+
+- Added Google Places response parser.
+- Added `parse_google_places_response()` for converting Google Places response data into `Place` objects.
+- Added parsing support for place names from Google Places results.
+- Added parsing support for latitude and longitude from `geometry.location`.
+- Added behavior to skip results without names.
+- Added behavior to skip results without usable coordinates.
+- Added tests for Google Places response parsing behavior.
+
+### Documentation
+
+- Updated README documentation for Google Places response parsing.
+- Updated project roadmap for Google Places response parser support.
+
 ## [0.7.0] - 2026-09-13
 
 ### Added

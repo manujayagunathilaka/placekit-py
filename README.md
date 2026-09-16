@@ -49,6 +49,7 @@ Current features:
 - Overpass response parser
 - Overpass HTTP client helper
 - Google Places type mapping helper
+- Google Places response parser
 - Custom exceptions for invalid coordinates
 - Custom provider and Overpass exceptions
 - CLI distance command
@@ -526,6 +527,52 @@ None
 
 Unsupported or custom categories return `None` because they may not have a known Google Places type mapping yet.
 
+## Google Places Response Parser
+
+`placekit-py` includes a Google Places response parser for future Google Places provider support.
+
+This helper converts Google Places API response data into `Place` objects.
+
+```python
+from placekit.providers.google_places import parse_google_places_response
+
+data = {
+    "results": [
+        {
+            "name": "ABC Restaurant",
+            "geometry": {
+                "location": {
+                    "lat": 6.9147,
+                    "lng": 79.9729,
+                }
+            },
+        }
+    ]
+}
+
+places = parse_google_places_response(
+    data=data,
+    category="restaurant",
+)
+
+print(places)
+```
+
+Example output:
+
+```text
+[Place(name='ABC Restaurant', category='restaurant', location=Location(latitude=6.9147, longitude=79.9729))]
+```
+
+The parser supports:
+
+- Reading place names from Google Places results
+- Reading latitude and longitude from `geometry.location`
+- Skipping results without a name
+- Skipping results without usable coordinates
+
+This parser does not make real HTTP requests. It only converts response data into `Place` objects.
+
 ## Overpass Query Builder
 
 `placekit-py` includes an Overpass query builder for OpenStreetMap provider support.
@@ -931,6 +978,23 @@ Returns:
 
 Unsupported categories return `None`.
 
+### `parse_google_places_response(data, category)`
+
+Parses Google Places API response data into `Place` objects.
+
+```python
+from placekit.providers.google_places import parse_google_places_response
+
+places = parse_google_places_response(
+    data=response_data,
+    category="restaurant",
+)
+```
+
+Returns a list of `Place` objects.
+
+Results without a name or usable coordinates are skipped.
+
 ### `build_overpass_query(...)`
 
 Builds an Overpass API query string for nearby OpenStreetMap features.
@@ -1111,6 +1175,8 @@ from placekit import UnsupportedCategoryError
 - [x] Add JSON output support for CLI commands
 - [x] Add OpenStreetMapProvider configuration options
 - [x] Add Google Places type mapping
+- [x] Add Google Places response parser
+- [ ] Add Google Places HTTP client helper
 - [ ] Add Google Places provider
 - [ ] Publish to PyPI
 
@@ -1139,9 +1205,11 @@ The `v0.5.0` release adds JSON output support for CLI commands.
 
 The `v0.6.0` release adds OpenStreetMap provider configuration options.
 
-The next feature release focuses on Google Places provider support.
+The `v0.7.0` release adds Google Places type mapping support.
 
-External providers such as Google Places are planned for future releases.
+The next feature release focuses on Google Places response parsing.
+
+Google Places provider implementation is planned for a future release.
 
 ## Contributing
 
