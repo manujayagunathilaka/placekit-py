@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 This project follows semantic versioning where possible.
 
+## [0.10.0] - Unreleased
+
+### Added
+
+- Added `GooglePlacesProvider` skeleton.
+- Added required API key configuration for `GooglePlacesProvider`.
+- Added default endpoint configuration for `GooglePlacesProvider`.
+- Added default timeout configuration for `GooglePlacesProvider`.
+- Added custom endpoint and timeout configuration support.
+- Exported `GooglePlacesProvider` from `placekit.providers`.
+- Added tests for Google Places provider initialization and configuration.
+
+### Documentation
+
+- Updated README documentation for `GooglePlacesProvider`.
+- Updated project roadmap for `GooglePlacesProvider` skeleton support.
+
 ## [0.9.0] - 2026-09-16
 
 ### Added
