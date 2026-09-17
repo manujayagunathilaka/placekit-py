@@ -52,6 +52,7 @@ Current features:
 - Google Places response parser
 - Google Places HTTP client helper
 - Google Places provider skeleton
+- Google Places provider nearby integration
 - Custom exceptions for invalid coordinates
 - Custom provider and Overpass exceptions
 - CLI distance command
@@ -63,7 +64,6 @@ Current features:
 
 Planned features:
 
-- Google Places provider nearby integration
 - PyPI release
 
 ## Installation
@@ -408,11 +408,7 @@ Supported providers:
 
 - In-memory provider
 - OpenStreetMap provider
-- Google Places provider skeleton
-
-Planned providers:
-
-- Google Places provider nearby integration
+- Google Places provider
 
 The provider layer allows the same high-level API to work with different data sources.
 
@@ -480,20 +476,29 @@ The OpenStreetMap provider uses:
 
 ## Google Places Provider
 
-`placekit-py` includes a `GooglePlacesProvider` skeleton for future Google Places nearby search support.
+`placekit-py` includes a `GooglePlacesProvider` for Google Places nearby search support.
 
-The provider currently stores API configuration values. Full nearby search integration will be added in a future release.
+The provider supports nearby place search using the Google Places HTTP helper, Google place type mapping, and Google Places response parser.
 
 ```python
+from placekit import Location, PlaceCategory, PlaceKitClient
 from placekit.providers import GooglePlacesProvider
 
 provider = GooglePlacesProvider(
     api_key="your-api-key",
 )
 
-print(provider.api_key)
-print(provider.endpoint)
-print(provider.timeout)
+client = PlaceKitClient(provider=provider)
+
+places = client.nearby(
+    location=Location(latitude=6.9147, longitude=79.9729),
+    categories=[PlaceCategory.RESTAURANT],
+    radius_km=2,
+    limit=10,
+)
+
+for place in places:
+    print(place.name)
 ```
 
 You can also customize the endpoint and timeout:
@@ -535,7 +540,7 @@ Unsupported or custom categories return `None`.
 
 ## Google Places Type Mapping
 
-`placekit-py` includes a Google Places type mapping helper for future Google Places provider support.
+`placekit-py` includes a Google Places type mapping helper.
 
 ```python
 from placekit import PlaceCategory
@@ -558,7 +563,7 @@ Unsupported or custom categories return `None`.
 
 ## Google Places Response Parser
 
-`placekit-py` includes a Google Places response parser for future Google Places provider support.
+`placekit-py` includes a Google Places response parser.
 
 ```python
 from placekit.providers.google_places import parse_google_places_response
@@ -602,7 +607,7 @@ This parser does not make real HTTP requests. It only converts response data int
 
 ## Google Places HTTP Client
 
-`placekit-py` includes a Google Places HTTP client helper for future Google Places provider support.
+`placekit-py` includes a Google Places HTTP client helper.
 
 ```python
 from placekit.providers.google_places import fetch_google_places_data
@@ -752,7 +757,9 @@ client = PlaceKitClient(provider=provider)
 print(client.provider)
 ```
 
-The client can delegate nearby place searches to the configured provider:
+The client can delegate nearby place searches to the configured provider.
+
+OpenStreetMap example:
 
 ```python
 from placekit import Location, PlaceCategory, PlaceKitClient
@@ -764,6 +771,23 @@ client = PlaceKitClient(provider=provider)
 places = client.nearby(
     location=Location(latitude=6.9147, longitude=79.9729),
     categories=[PlaceCategory.UNIVERSITY],
+    radius_km=2,
+    limit=10,
+)
+```
+
+Google Places example:
+
+```python
+from placekit import Location, PlaceCategory, PlaceKitClient
+from placekit.providers import GooglePlacesProvider
+
+provider = GooglePlacesProvider(api_key="your-api-key")
+client = PlaceKitClient(provider=provider)
+
+places = client.nearby(
+    location=Location(latitude=6.9147, longitude=79.9729),
+    categories=[PlaceCategory.RESTAURANT],
     radius_km=2,
     limit=10,
 )
@@ -957,7 +981,7 @@ provider = OpenStreetMapProvider(
 
 ### `GooglePlacesProvider`
 
-Provider skeleton for future Google Places nearby search support.
+Provider implementation for Google Places nearby search support.
 
 ```python
 from placekit.providers import GooglePlacesProvider
@@ -1215,7 +1239,7 @@ from placekit import UnsupportedCategoryError
 - [x] Add Google Places response parser
 - [x] Add Google Places HTTP client helper
 - [x] Add GooglePlacesProvider skeleton
-- [ ] Integrate GooglePlacesProvider nearby search
+- [x] Integrate GooglePlacesProvider nearby search
 - [ ] Publish to PyPI
 
 ## Project Status
@@ -1242,9 +1266,11 @@ The `v0.8.0` release adds Google Places response parsing support.
 
 The `v0.9.0` release adds Google Places HTTP client support.
 
-The next feature release focuses on the `GooglePlacesProvider` skeleton.
+The `v0.10.0` release adds the `GooglePlacesProvider` skeleton.
 
-Google Places nearby search integration is planned for a future release.
+The next feature release focuses on Google Places nearby search integration.
+
+PyPI publishing is planned for a future release.
 
 ## Contributing
 
