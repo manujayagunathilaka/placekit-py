@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 
 This project follows semantic versioning where possible.
 
+## [0.11.0] - Unreleased
+
+### Added
+
+- Added `GooglePlacesProvider.nearby()` integration.
+- Added Google Places nearby search support through `PlaceKitClient`.
+- Added radius conversion from kilometers to meters for Google Places nearby search.
+- Added Google place type mapping usage in `GooglePlacesProvider`.
+- Added Google Places HTTP helper usage in `GooglePlacesProvider`.
+- Added Google Places response parser usage in `GooglePlacesProvider`.
+- Added tests for Google Places nearby provider integration.
+- Added tests for unsupported Google Places categories.
+- Added tests for Google Places nearby result limiting.
+
+### Documentation
+
+- Updated README documentation for Google Places nearby provider usage.
+- Updated project roadmap for Google Places nearby integration.
+
 ## [0.10.0] - 2026-09-17
 
 ### Added
